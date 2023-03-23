@@ -15,9 +15,14 @@ use Yii;
  *
  * @property ProjectImage[] $projectImages
  * @property Testimonial[] $testimonials
+ * @property false|mixed|string|null $mime_type
  */
 class File extends \yii\db\ActiveRecord
 {
+    /**
+     * @var false|mixed|string|null
+     */
+
     /**
      * {@inheritdoc}
      */

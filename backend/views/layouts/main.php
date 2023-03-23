@@ -34,11 +34,10 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']],
-        ['label' => Yii::t('app', 'Testimonials'), 'url' => ['/testimonial/index']],
-    ];
+    $menuItems[] =  ['label' => 'Home', 'url' => ['/site/index']];
+    $menuItems[] =  ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']];
+    $menuItems[] =  ['label' => Yii::t('app', 'Testimonials'), 'url' => ['/testimonial/index']];
+
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     }     
