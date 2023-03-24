@@ -64,4 +64,4 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php foreach ($model->testimonials as $testimonial): ?>
         <div><?= Html::a( $testimonial->title, ['testimonial/view', 'id'])?></div>
-    <?php ?>
+    <?php endforeach; ?>
