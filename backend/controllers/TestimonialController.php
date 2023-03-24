@@ -140,10 +140,6 @@ class TestimonialController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDeleteCustomerImage() {
-        $file = File::findOne($this->requet->post('key'))
-    }
-
     public function actionDeleteCustomerImage()
     {
         $file = File::findOne($this->request->post('key'));

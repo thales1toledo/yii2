@@ -24,7 +24,7 @@ use yii\helpers\Url;
             'initialPreviewAsData' => true,
             'initialPreviewConfig' => $model->imageConfig(),
             'showUpload' => false,
-            'deleteUrl' => Url::to('testimonial/delete-customer-image')
+            'deleteUrl' => Url::to(['testimonial/delete-customer-image'])
         ],
     ]) ?>
 
