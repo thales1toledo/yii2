@@ -138,8 +138,8 @@ class Testimonial extends \yii\db\ActiveRecord
     public function delete()
     {
         /**
-         * @var $db yii\db\Connection
-         */
+         * //         * @var $db yii\db\Connection
+         * //         */
         $db = Yii::$app->db;
         $transaction = $db->beginTransaction();
 
@@ -148,15 +148,12 @@ class Testimonial extends \yii\db\ActiveRecord
             $this->customerImage->deleteInternal();
             $transaction->commit();
             return true;
-        } catch (\Exception $e) {
-            $transaction->rollBack();
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to delete'));
-            return false;
         } catch (\Throwable $e) {
             $transaction->rollBack();
-            Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to delete'));
+            Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to delete.'));
             return false;
         }
     }
-
 }
+
+

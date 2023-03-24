@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'method' => 'post',
             ],
         ]) ?>
+        <?= Html::a(Yii::t('app', 'New Testimonial'), ['testimonial/create', 'project_id' => $model->id], ['class' => 'btn btn-secondary']) ?>
     </p>
 
     <?= DetailView::widget([
@@ -32,25 +33,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             [
-                    'label' => Yii::t('app', 'Images'),
-                    'format' => 'raw',
-                    'value' => function($model) {
-                        /**
-                         * @var $model \common\models\Project
-                         */
-                        if(!$model->hasImages()) {
-                            return null;
-                        }
-                        $imagesHtml = "";
-                        foreach ($model->images as $image) {
-                            $imagesHtml .= Html::img($image->file->absoluteUrl(), [
-                                 'alt' => 'Demonstration of the user interface',
-                                'height' => 200,
-                                'class' => 'project-view__image'
-                            ]);
-                        }
-                        return $imagesHtml;
+                'label' => Yii::t('app', 'Images'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    /**
+                     * @var $model \common\models\Project
+                     */
+                    if (!$model->hasImages()) {
+                        return null;
                     }
+                    $imagesHtml = "";
+                    foreach ($model->images as $image) {
+                        $imagesHtml .= Html::img($image->file->absoluteUrl(), [
+                            'alt' => 'Demonstration of the user interface',
+                            'height' => 200,
+                            'class' => 'project-view__image'
+                        ]);
+                    }
+                    return $imagesHtml;
+                }
             ],
             'tech_stack:raw',
             'description:raw',
@@ -59,4 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
-</div>
+       <h2>Testimonials</h2>
+
+    <?php foreach ($model->testimonials as $testimonial): ?>
+        <div><?= Html::a( $testimonial->title, ['testimonial/view', 'id'])?></div>
+    <?php ?>

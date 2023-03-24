@@ -1,6 +1,7 @@
 <?php
 
 use kartik\file\FileInput;
+use kartik\rating\StarRating;
 use yii\helpers\Html;
 use yii\bootstrap5\ActiveForm;
 use yii\helpers\Url;
@@ -34,7 +35,10 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'review')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'rating')->textInput() ?>
+
+    <?= $form->field($model, 'rating')->widget(StarRating::class, [
+            'pluginOptions' => ['step' => 1]
+    ]) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

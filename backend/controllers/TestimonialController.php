@@ -7,7 +7,6 @@ use common\models\Project;
 use common\models\Testimonial;
 use backend\models\TestimonialSearch;
 use Yii;
-use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;

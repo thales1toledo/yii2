@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 
 use yii\imagine\Image;
+use yii\rest\DeleteAction;
 use yii\web\UploadedFile;
 
 /**
@@ -26,7 +27,7 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @var UploadedFile
      */
-    public UploadedFile $imageFiles;
+    public $imageFiles;
 
     /**
      * {@inheritdoc}
@@ -153,5 +154,23 @@ class Project extends \yii\db\ActiveRecord
     public function loadUploadedImageFiles()
     {
         $this->imageFiles = UploadedFile::getInstances($this, 'imageFiles');
+    }
+
+    public function Delete()
+    {
+        $db = Yii::$app->db;
+        $transaction = $db->beginTransaction();
+        try {
+            foreach ($this->images as $image) {
+                $image->file->deleteInternal();
+            }
+            parent::deleteInternal();
+            $transaction->commit();
+            return true;
+        } catch (\Throwable $e) {
+            $transaction->rollBack();
+            Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to delete.'));
+            return false;
+        }
     }
 }
