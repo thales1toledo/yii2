@@ -22,6 +22,7 @@ use yii\web\UploadedFile;
  */
 class Testimonial extends \yii\db\ActiveRecord
 {
+
     /**
      * @var UploadedFile
      */
@@ -47,7 +48,7 @@ class Testimonial extends \yii\db\ActiveRecord
             [['title', 'customer_name'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
-            ['rating', 'integer', 'min' => 1, 'max' => 5]
+            ['rating', 'integer', 'min' => 1, 'max' => 5],
         ];
     }
 
@@ -107,23 +108,17 @@ class Testimonial extends \yii\db\ActiveRecord
                 $file->save();
 
                 $this->customer_image_id = $file->id;
-                $this->save();
 
                 $thumbnail = Image::thumbnail($this->imageFile->tempName, null, 1080);
                 $didSave = $thumbnail->save($file->path_url . '/' . $file->name);
-
                 if (!$didSave) {
-                    $this->addError('imageFile', Yii::t('app', 'Failed to save image.'));
+                    $this->addError('imageFile', Yii::t('app', 'Failed to save image'));
                     return false;
                 }
                 $transaction->commit();
-            } catch (\Exception $e) {
-                $transaction->rollBack();
-                $this->addError('imageFile', Yii::t('app', 'Failed to save image.') . '(' . $e->getMessage() . ')');
-                return false;
             } catch (\Throwable $e) {
                 $transaction->rollBack();
-                $this->addError('imageFile', Yii::t('app', 'Failed to save image.') . '(' . $e->getMessage() . ')');
+                $this->addError('imageFile', Yii::t('app', 'Failed to save image') . '(' . $e->getMessage() . ')');
                 return false;
             }
         }
@@ -137,7 +132,7 @@ class Testimonial extends \yii\db\ActiveRecord
 
     public function imageConfig()
     {
-        return $this->customerImage ? [['key' => $this->customerImage->id]] : [];
+        return $this->customerImage ? [['key' => $this->customer_image_id]] : [];
     }
 
     public function delete()
@@ -153,7 +148,6 @@ class Testimonial extends \yii\db\ActiveRecord
             $this->customerImage->deleteInternal();
             $transaction->commit();
             return true;
-
         } catch (\Exception $e) {
             $transaction->rollBack();
             Yii::$app->session->setFlash('danger', Yii::t('app', 'Failed to delete'));
@@ -164,4 +158,5 @@ class Testimonial extends \yii\db\ActiveRecord
             return false;
         }
     }
+
 }

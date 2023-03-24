@@ -1,11 +1,13 @@
 <?php
 
+use kartik\file\FileInput;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap5\ActiveForm;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var common\models\Testimonial $model */
-/** @var yii\widgets\ActiveForm $form */
+/** @var yii\bootstrap5\ActiveForm $form */
 /** @var array $projects */
 ?>
 
@@ -13,15 +15,16 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'project_id')->dropDownList($projects, ['prompt' => Yii::t('app', 'Select')]) ?>
+    <?= $form->field($model, 'project_id')->dropDownList($projects, ['prompt' => 'Select a project']) ?>
 
-    <?= $form->field($model, 'imageFile')->widget(\kartik\file\FileInput::class, [
+    <?= $form->field($model, 'imageFile')->widget(FileInput::class, [
         'options' => ['accept' => 'image/*'],
         'pluginOptions' => [
             'initialPreview' => $model->imageAbsoluteUrl(),
             'initialPreviewAsData' => true,
             'initialPreviewConfig' => $model->imageConfig(),
             'showUpload' => false,
+            'deleteUrl' => Url::to('testimonial/delete-customer-image')
         ],
     ]) ?>
 

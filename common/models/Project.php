@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 
+use yii\imagine\Image;
 use yii\web\UploadedFile;
 
 /**
@@ -25,7 +26,7 @@ class Project extends \yii\db\ActiveRecord
     /**
      * @var UploadedFile
      */
-    public $imageFiles;
+    public UploadedFile $imageFiles;
 
     /**
      * {@inheritdoc}
@@ -107,7 +108,7 @@ class Project extends \yii\db\ActiveRecord
                 $file->name = uniqid(true) . '.' . $imageFile->extension;
                 $file->path_url = Yii::$app->params['uploads']['projects'];
                 $file->base_url = Yii::$app->urlManager->createAbsoluteUrl($file->path_url);
-                $file->mine_type = mime_content_type($imageFile->tempName);
+                $file->mime_type = mime_content_type($imageFile->tempName);
                 $file->save();
 
                 $projectImage = new ProjectImage();
@@ -115,7 +116,9 @@ class Project extends \yii\db\ActiveRecord
                 $projectImage->file_id = $file->id;
                 $projectImage->save();
 
-                if (!$imageFile->saveAs($file->path_url . '/' . $file->name)) {
+                $thumbnail = Image::thumbnail($imageFile->tempName, null, 1080);
+                $didSave = $thumbnail->save($file->path_url . '/' . $file->name);
+                if (!$didSave) {
                     $db->transaction->rollBack();
                 }
             }

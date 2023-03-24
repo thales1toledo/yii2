@@ -2,9 +2,12 @@
 
 namespace backend\controllers;
 
+use common\models\File;
 use common\models\Project;
 use common\models\Testimonial;
 use backend\models\TestimonialSearch;
+use Yii;
+use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -23,6 +26,15 @@ class TestimonialController extends Controller
         return array_merge(
             parent::behaviors(),
             [
+//                'access' => [
+//                    'class' => AccessControl::class,
+//                    'rules' => [
+//                        [
+//                            'allow' => true,
+//                            'roles' => ['manageTestimonials'],
+//                        ],
+//                    ],
+//                ],
                 'verbs' => [
                     'class' => VerbFilter::className(),
                     'actions' => [
@@ -46,6 +58,7 @@ class TestimonialController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'projects' => ArrayHelper::map(Project::find()->all(), 'id', 'name'),
         ]);
     }
 
@@ -79,6 +92,7 @@ class TestimonialController extends Controller
                 }
             }
         } else {
+            $model->project_id = $this->request->get('project_id');
             $model->loadDefaultValues();
         }
 
@@ -101,7 +115,7 @@ class TestimonialController extends Controller
 
         if ($this->request->isPost && $model->load($this->request->post())) {
             $model->loadUploadedImageFile();
-            if($model->saveImage() && $model->save()) {
+            if ($model->saveImage() && $model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -124,6 +138,19 @@ class TestimonialController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDeleteCustomerImage() {
+        $file = File::findOne($this->requet->post('key'))
+    }
+
+    public function actionDeleteCustomerImage()
+    {
+        $file = File::findOne($this->request->post('key'));
+        if ($file->delete()) {
+            return json_encode(null);
+        }
+        return json_encode(['error' => true]);
     }
 
     /**

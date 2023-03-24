@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%project}}`
  * - `{{%file}}`
  */
-class m230322_191302_create_testimonial_table extends Migration
+class m220830_190245_create_testimonial_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -22,7 +22,7 @@ class m230322_191302_create_testimonial_table extends Migration
             'customer_image_id' => $this->integer()->notNull(),
             'title' => $this->string()->notNull(),
             'customer_name' => $this->string()->notNull(),
-            'review' => $this->text()->notnull(),
+            'review' => $this->text()->notNull(),
             'rating' => $this->integer()->notNull(),
         ]);
 

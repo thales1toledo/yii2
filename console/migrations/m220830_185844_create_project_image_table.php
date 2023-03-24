@@ -9,7 +9,7 @@ use yii\db\Migration;
  * - `{{%project}}`
  * - `{{%file}}`
  */
-class m230322_190854_create_project_image_table extends Migration
+class m220830_185844_create_project_image_table extends Migration
 {
     /**
      * {@inheritdoc}
